@@ -10,6 +10,7 @@ def new_data():
 		'thumbs': thumbs.Thumbs(),
 		'fileinfo': fileinfo.FileInfo(), 
 		'title': String('title'),
+		'showtitle': String('showtitle'),  # the title of the show
 		'plot': String('plot'),
 		'thumb': thumbs.Thumb(),
 		'credits': String('credits'),
@@ -32,8 +33,8 @@ def new_data():
 
 class Episodes(Nodes):
 
-	def __init__(self, episodes=[]):
-		super().__init__(Episode, episodes)
+	def __init__(self, episodes=[], showtitle=None):
+		super().__init__(Episode, node_specs=episodes, common_specs={'showtitle': showtitle})
 		self.override_with_type = Nodes
 
 

@@ -45,7 +45,7 @@ class Node:
 		self.element_name = element_name
 		self._required = required
 		self._children = []
-		self.attributes = {}
+		self._attributes = {}
 
 	def set(self, *values):
 		"""Set the value of `children`.
@@ -61,6 +61,10 @@ class Node:
 		return self
 
 	@property
+	def attributes(self):
+		return {str(k): str(v) for k, v in self._attributes.items() if v}
+
+	@property
 	def children(self):
 		return self._children
 
@@ -73,7 +77,7 @@ class Node:
 		self._children.append(child)
 
 	def update(self, attributes):
-		self.attributes.update(attributes)
+		self._attributes.update(attributes)
 
 	def __bool__(self):
 		if self._required:
@@ -92,7 +96,7 @@ class Node:
 				)
 
 	def __str__(self):
-		return tostring(self.__xml__(), pretty_print=True).decode()
+		return tostring(self.__xml__(), encoding='UTF-8', pretty_print=True, xml_declaration=True, standalone=True).decode()
 
 	def __repr__(self):
 		values = {
@@ -134,6 +138,12 @@ class Singleton(Node):
 	def __init__(self, element_name, default=None, required=False):
 		super().__init__(element_name, required=required)
 		self._value = default if default is not None else self.default
+
+	@property
+	def value(self):
+		if not self:
+			return None
+		return self.caster(self._value)  # pylint: disable=not-callable
 
 	def set(self, value):
 		self._value = value
@@ -259,11 +269,12 @@ class Nodes:
 
 	override_with_type = False
 
-	def __init__(self, node_class, node_specs=None, required=False):
+	def __init__(self, node_class, node_specs=None, common_specs=None, required=False):
 		if not isinstance(node_class, type):
 			raise TypeError()
 		self._node_class = node_class
 		self._nodes = []
+		self._common_specs = common_specs or {}
 		self._required = required
 		self.set(node_specs or [])
 
@@ -296,6 +307,7 @@ class Nodes:
 	def append(self, n_spec):
 		#self.debug('.append node_spec', node_spec)
 		if n_spec and isinstance(n_spec, dict):
+			n_spec.update(self._common_specs)
 			self._nodes.append(self._node_class(**n_spec))
 		elif n_spec and isinstance(n_spec, Node):
 			self._nodes.append(n_spec)
