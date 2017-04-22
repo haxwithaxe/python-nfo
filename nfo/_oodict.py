@@ -1,15 +1,16 @@
+"""
 
 """
-class OODictElementMixin:
 
-	override_with_type = False
-
-	def set(self, value):
-		raise NotImplementedError()
-"""
 
 class Mixin:
-	"""Mixin that presents the items in `data` as instance attributes of the subclass."""
+	"""A Mixin that presents the items in `data` as instance attributes of the subclass.
+	
+	Attributes:
+		data (dict): A dict of str keys and objects with a `set` method. The `set` method accepts the value being set to
+		the attribute.
+
+	"""
 
 	data = {}
 
@@ -38,12 +39,14 @@ class Mixin:
 			self.data[key].set(value)
 
 	def __setattr__(self, attr, value):
+		"""If it's in `data` then we pass `value` to the corresponding `attr`."""
 		if attr in self.data:
 			self.set_data(attr, value)
 		else:
 			return super().__setattr__(attr, value)
 
 	def __getattr__(self, attr):
+		"""If it's in `data` then we return the corresponding dict value."""
 		if attr in self.data:
 			return self.get_data(attr)
 		else:

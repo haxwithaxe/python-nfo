@@ -4,7 +4,7 @@ from nfo.nodes import Date, Int, Float, Node, Nodes, String
 from nfo import _oodict
 
 
-def new_data():
+def _new_data():
 	data = {
 		'actors': actors.Actors(),
 		'thumbs': thumbs.Thumbs(),
@@ -42,7 +42,7 @@ class Episode(Node, _oodict.Mixin):
 
 	def __init__(self, **details):
 		super().__init__('episodedetails')
-		self.data = new_data()
+		self.data = _new_data()
 		self.override_with_type = Episode
 		self.update_data(details)
 

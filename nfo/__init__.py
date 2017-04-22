@@ -1,4 +1,4 @@
-__doc__ = """This library is used to read and generate nfo files.
+"""This library is used to read and generate nfo files.
 
 Since nfo is a defacto standard with many variations this library is intended
 only for nfo files as specified by the Kodi project.
