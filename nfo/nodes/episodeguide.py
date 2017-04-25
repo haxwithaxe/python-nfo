@@ -6,8 +6,8 @@ class EpisodeGuide(Node):
 	"""Model for the `episodeguide` element.
 	
 	Arguments:
-		url (str, optional): Episode guide URL.
-		cache (str, optional): Filename of the cached episode guide.
+		url (str, optional): Episode guide URL. Defaults to None.
+		cache (str, optional): Filename of the cached episode guide. Defaults to None.
 	
 	"""
 
@@ -19,3 +19,7 @@ class EpisodeGuide(Node):
 	@property
 	def children(self):
 		return [URL('url', self.url, cache=self.cache)]
+
+	def __bool__(self):
+		"""This element is falsey if it has no values set."""
+		return self.url and self.cache

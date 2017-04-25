@@ -1,9 +1,10 @@
+"""A set of Models describing playback state related elements."""
 
 from nfo.nodes import Node, Float
 
 
 class Resume(Node):
-	""" Model of a `resume` element.
+	"""Model of a `resume` element.
 
 	Arguments:
 		position (int, optional): Position in the video to resume at.

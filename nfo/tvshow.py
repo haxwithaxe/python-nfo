@@ -1,16 +1,16 @@
 """A convenience for importing.
 
 Provides the following:
-	actors
-	episodes
-	episodeguide
-	fileinfo
-	genres
-	playback
-	thumbs
-	TVShow
+	nodes.actors
+	nodes.episodes
+	nodes.episodeguide
+	nodes.fileinfo
+	nodes.genres
+	nodes.playback
+	nodes.thumbs
+	nodes.tvshows.TVShow
 
 """
-
+# pylint: disable=unused-import
 from nfo.nodes import actors, episodeguide, episodes, fileinfo, genres, playback, thumbs
 from nfo.nodes.tvshows import TVShow

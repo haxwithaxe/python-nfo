@@ -9,7 +9,7 @@ class FileInfo(Node):
 	"""Model of a `fileinfo` element.
 
 	Keyword Arguments:
-		video (str): Video filename or URL. See the notes below on using this element.
+		video (str, optional): Video filename or URL. See the notes below on using this element.
 
 	From the (http://kodi.wiki/view/NFO_files/tvepisodes)[Kodi wiki] in
 	reference to `fileinfo/streamdetails`:

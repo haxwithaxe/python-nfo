@@ -1,4 +1,7 @@
-"""
+"""Object oriented dictionary interface.
+
+This lets the developer construct objects with relevant attributes from a
+dictionary.
 
 """
 
@@ -20,7 +23,12 @@ class Mixin:
 				self.set_data(key, value)
 
 	def get_data(self, key):
-		"""Return the object at dictionary key `key`."""
+		"""Return the object at dictionary key `key`.
+		
+		To handle retrieval of objects in a more complex way override this
+		method.
+		
+		"""
 		return self.data[key]
 
 	def set_data(self, key, value):
@@ -29,8 +37,9 @@ class Mixin:
 		Set the value of the object at dictionary key `key` by calling it with
 		the argument `value`.
 
-		This lets the object handle the setting of the value in a more complex
-		way.
+		To handle the setting of the value in a more complex way, override this
+		method.
+
 		"""
 		if  (self.data[key].override_with_type is not False and
 				isinstance(value, self.data[key].override_with_type)):
@@ -39,17 +48,23 @@ class Mixin:
 			self.data[key].set(value)
 
 	def __setattr__(self, attr, value):
-		"""If it's in `data` then we pass `value` to the corresponding `attr`."""
+		"""If it's in `data` then we pass `value` to the corresponding key
+		matching `attr`.
+		
+		"""
 		if attr in self.data:
 			self.set_data(attr, value)
 		else:
 			return super().__setattr__(attr, value)
 
 	def __getattr__(self, attr):
-		"""If it's in `data` then we return the corresponding dict value."""
+		"""If it's in `data` then we return the corresponding dict value.
+		Otherwise we let the parent object handle the request.
+
+		"""
 		if attr in self.data:
 			return self.get_data(attr)
 		else:
-			if hasattr(super(), '__getattr__'):
+			if hasattr(super(), '__getattr__'):  #__getattr__ isn't implemented in the type class apparently.
 				return super().__getattr__(attr)  # pylint: disable=no-member
 		raise AttributeError(attr)

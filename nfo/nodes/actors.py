@@ -1,4 +1,4 @@
-"""Models for `actor` elements and lists of `actor` elements."""
+"""Models of elements that describe actors."""
 
 from nfo.nodes import Int, Node, Nodes, String, thumbs
 
@@ -7,7 +7,7 @@ class Actors(Nodes):
 	"""A list of Actor instances.
 
 	Arguments:
-		actor_specs (list, optional): A list of dict instances.
+		actor_specs (list, optional): A list of `Actor` constructor dict instances.
 
 	"""
 
@@ -19,10 +19,10 @@ class Actor(Node):
 	"""Model of an `actor` element.
 
 	Arguments:
-		name (str, optional): The actor's name.
-		role (str, optional): The role played by the actor.
-		thumb (str, optional): The filename or URL of the actor's photo.
-		order (int, optional): The display order of this actor's entry.
+		name (str, optional): The actor's name. Defaults to None.
+		role (str, optional): The role played by the actor. Defaults to None.
+		thumb (str, optional): The filename or URL of the actor's photo. Defaults to None.
+		order (int, optional): The display order of this actor's entry. Defaults to None.
 
 	Attributes:
 		name (str): The actor's name.
@@ -41,12 +41,19 @@ class Actor(Node):
 
 	@property
 	def children(self):
-		"""Overrides Node.children attribute."""
+		"""Overrides Node.children attribute.
+		
+		Returns:
+			tuple: A tuple with the Node instances for the name, role, thumb, and order.
+
+		"""
 		return (
 				String('name', self.name),
 				String('role', self.role),
 				self.thumb,
-				Int('order', self.order))
+				Int('order', self.order)
+				)
 
 	def __lt__(self, other):
+		"""Used for ordering Actor elements."""
 		return self.order and other.order and self.order < other.order

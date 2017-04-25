@@ -5,6 +5,7 @@ from nfo import _oodict
 
 
 def _new_data():
+	"""Return freshly created Node instances."""
 	data = {
 		'actors': actors.Actors(),
 		'thumbs': thumbs.Thumbs(),
@@ -21,7 +22,7 @@ def _new_data():
 		'season': Int('season'),
 		'episode': Int('episode'),
 		'playcount': Int('playcount', 0),
-		'lastplayed': Int('lastplayed'),
+		'lastplayed': Date('lastplayed'),
 		'epbookmark': Int('epbookmark'),  # For media files containing multiple episodes, where value is the time where the next episode begins in seconds.
 		'displayseason': Int('displayseason'),  # For TV show specials, determines how the special episode is sorted in "all" and season views.
 		'displayepisode': Int('displayepisode'),  # For TV show specials, determines how the special episode is sorted in "all" and season views. If marked as episode 7, the special will come before the real episode 7.
@@ -39,6 +40,35 @@ class Episodes(Nodes):
 
 
 class Episode(Node, _oodict.Mixin):
+	"""Model of the `episodedetails` element.
+	
+	Arguments:
+		**details: A dict of instances or constructor dicts corresponding to `TVShow` attributes.
+
+	Attributes:
+		actors (actors.Actors): 
+		thumbs (thumbs.Thumbs): 
+		fileinfo (fileinfo.FileInfo):  
+		title (String):
+		showtitle (String): The title of the show. ?required?.
+		plot (String): The overall description of the TV show.
+		thumb (thumbs.Thumb): the 
+		credits (String):,
+		director (String):
+		studio (String):  # Production studio or channel
+		mpaa (String),  # MPAA certification
+		rating (Float): User rating between 1 and 10 if set.
+		season (Int): Seasons number.
+		episode (Int): Episode number.
+		playcount (Int): Number of times the user has played this episode. Defaults to 0.
+		lastplayed (Date): The last day the user played this episode.
+		epbookmark (Int):  End point for playback in seconds. This is for media files containing multiple episodes, where value is the time where the next episode begins in seconds.
+		displayseason (Int): This is effectively a season number for episodes that don't have a season number.
+		displayepisode (Int): This is effectively an episode number for episodes that don't have an episode number.
+		aired (Date): The date the episode was aired.
+		premiered (Date): The date the episode was premiered.
+		
+	"""
 
 	def __init__(self, **details):
 		super().__init__('episodedetails')
