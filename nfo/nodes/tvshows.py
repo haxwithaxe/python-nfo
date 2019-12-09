@@ -60,8 +60,10 @@ def _elements():
 
 class TVShow(Node, _oodict.Mixin):
 
+    root_node = "tvshow"
+
 	def __init__(self, **details):
-		super().__init__('tvshow')
+		super().__init__(self.root_node)
 		self.data = _elements()
 		self.update_data(details)
 
