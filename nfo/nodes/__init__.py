@@ -205,7 +205,7 @@ class Float(Singleton, ValidRangeMixin):
 
 class Date(Singleton):
 
-	default = datetime(year=1969, month=12, day=31, hour=0, minute=0)
+	default = None # was : datetime(year=1969, month=12, day=31, hour=0, minute=0)
 
 	def __init__(self, element_name, format_string='%Y-%m-%d', default=None, required=False):
 		self.__value = None
